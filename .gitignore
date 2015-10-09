@@ -1,5 +1,8 @@
 # nodejs stuff :)
 node_modules
 
+# semantic ui
+semantic/
+
 # editor files
 *.swp

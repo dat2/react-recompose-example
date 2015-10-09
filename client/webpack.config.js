@@ -20,6 +20,12 @@ module.exports = {
       // require('.scss')
       { test: /\.scss$/, loader: ExtractTextPlugin.extract('style-loader', 'css?sourceMap!sass?sourceMap') },
 
+      // css stuff
+      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css') },
+
+      // for React dev tools, but also for React.createElement
+      { test: require.resolve('react'), loader: 'expose?React' },
+
       // the file loader works its magic
       // https://github.com/webpack/file-loader#usage
       { test: /\.(png|jpg)$/, loader: 'url?limit=10000' },

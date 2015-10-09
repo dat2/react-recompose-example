@@ -1,22 +1,70 @@
+import './semantic/dist/semantic.min.css'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
+import moment from 'moment'
 
-import { compose, withState, mapProps, pure, lifecycle } from 'recompose';
+import { compose, withState, mapProps, pure, lifecycle } from 'recompose'
 
-const ContactCard = pure(({ name, description, onDelete }) => (
-  <div style={{ border: '1px solid black' }}>
-    <button onClick={onDelete}>X</button>
-    <div> <p>Name: {name}</p> </div>
-    <div> <p>{description}</p> </div>
-  </div> 
+import wireframe from './images/wireframe.png'
+
+const ContactCard = pure(({ name, description, joined, friends, country, onDelete }) => (
+  <div className='card'>
+    <div className='image'>
+      <img src={wireframe}/>
+    </div>
+    <div className='content'>
+      <a className='header'> {name} </a>
+      <div className='meta'>
+          Joined in { moment(joined).format('YYYY') }
+      </div>
+      <div className='description'> {description} </div>
+    </div>
+    <div className='extra content'>
+      <span className='right floated'>
+        <i className={country + ' flag'} />
+      </span>
+      <span>
+        <i className='user icon'></i>
+        {friends} Friends
+      </span>
+    </div>
+  </div>
 ))
 
-const CreateNewContact = ({ name, description, changeName, changeDescription, onDone }) => (
-  <div className="card">
-    <div> <p>Name: <input value={name} onChange={changeName}/></p> </div>
-    <div> <p>Description: <input value={description} onChange={changeDescription}/></p> </div>
-    <button onClick={() => onDone({ name, description })}>Done</button>
-  </div> 
+const CreateNewContact = ({ name, description, setName, setDescription, onDone }) => (
+  <div className='card'>
+    <div className='content'>
+
+        <div className='header'> Create Contact </div>
+
+        <div className='description'>
+          <div className='ui form'>
+            <div className='field'>
+              <label>Name</label>
+              <input type='text' value={name} onChange={setName}/>
+            </div>
+
+            <div className='field'>
+              <label>Description</label>
+              <textarea value={description} rows={4} onChange={setDescription} />
+            </div>
+
+            <button
+              className='ui button' type='submit'
+              onClick={() => onDone({ name, description, joined: moment(), friends: 0, country: 'ca' })}>
+              Done
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className='extra content'>
+        <span>
+          <i className='user icon'></i>
+          { 0 } Friends
+        </span>
+    </div>
+  </div>
 )
 
 const setter = (fn) => ({ target: { value }}) => fn(value)
@@ -25,24 +73,26 @@ const CreateNewContactContainer = compose(
   // state
   withState('name', 'setName', ''),
   withState('description', 'setDescription', ''),
-  
+
   mapProps( ({ setName, setDescription, ...rest }) => ({
     // state changing functions
-    changeName: setter(setName),
-    changeDescription: setter(setDescription),
-
+    setName: setter(setName),
+    setDescription: setter(setDescription),
     ...rest
   }))
 )(CreateNewContact);
 
-const ContactList = ({ contacts, addContact, showCreate, create, deleteContact}) => (
+const ContactList = ({ contacts, addContact, showCreate, openCreator, deleteContact}) => (
   <div>
-    <button onClick={create}>{ showCreate ? '-' : '+' }</button>
-    { contacts.map((props, i) => <ContactCard key={i} onDelete={() => deleteContact(i)} {...props}/>) }
-    { showCreate ?
-      <CreateNewContactContainer onDone={addContact} /> :
-      <div/>
-    }
+    <button className='ui button' onClick={openCreator}>{ showCreate ? '-' : '+' }</button>
+    <div className='ui cards vertical'>
+      { contacts.map((props, i) => <ContactCard key={i} onDelete={() => deleteContact(i)} {...props}/>) }
+
+      { showCreate ?
+        <CreateNewContactContainer onDone={addContact} /> :
+        <div />
+      }
+    </div>
   </div>
 )
 
@@ -74,7 +124,7 @@ const ContactListContainer = compose(
     // needed so lifecycle works correctly
     loadContacts: (cs) => setContacts(cs),
 
-    create: () => setShowCreate(sc => !sc),
+    openCreator: () => setShowCreate(sc => !sc),
     ...rest
   })),
 
@@ -83,7 +133,7 @@ const ContactListContainer = compose(
     ({ props: { loadContacts } }) => {
       // fetch initial data
       fetch('http://localhost:7000/contacts')
-        .then((contacts) => contacts.json())
+        .then(contacts => contacts.json())
         .then(loadContacts)
         .catch((err) => console.error(err))
     },
