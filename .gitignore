@@ -1,5 +1,6 @@
 # nodejs stuff :)
 node_modules
+npm-debug.log
 
 # semantic ui
 semantic/
