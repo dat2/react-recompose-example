@@ -1,12 +1,9 @@
 import './semantic/dist/semantic.min.css'
+import './styles/app.scss'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import CharacterList from './components/CharacterList'
-
-const App = () => (
-  <div> <CharacterList/> </div>
-)
+import App from './components/App'
 
 ReactDOM.render(<App/>, document.getElementById('content'));

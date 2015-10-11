@@ -1,16 +1,10 @@
 import express from 'express'
 import concat from 'concat-stream'
 
-const PORT = 7000
+import { getGames, getSchemaForGame } from './steamapi'
+
 
 const app = express()
-
-// the local characters array
-const characters = [
-  { name: 'Fake', description: 'This guy is so fake', born: new Date(2014, 11, 17), children: 20, country: 'ca' },
-  { name: 'Bob', description: 'Dole', born: new Date(2015, 1, 27), children: 5, country: 'de' },
-  { name: 'Dan Harmon', description: 'One of the creators of rick and morty', born: new Date(2012, 3, 12), children: 6, country: 'it' }
-]
 
 // CORS since we are running webpack-dev-server
 app.all('*', (req, res, next) => {
@@ -22,29 +16,23 @@ app.all('*', (req, res, next) => {
   next()
 })
 
-app.get('/characters', (req, res) => {
-  console.log('fetching characters')
-  res.json(characters)
+app.get('/games/:steamid', (req, res) => {
+  const { steamid } = req.params
+  getGames(steamid)
+    .then((response) => {
+      const { games } = response
+      games.sort((a, b) => b.playtime_forever - a.playtime_forever)
+      res.json(games)
+    })
+    .catch((err) => res.json(err))
 })
 
-app.post('/character/add', (req, res) => {
-  req.pipe(concat((body) => {
-      Promise.resolve(body.toString())
-        .then(JSON.parse)
-        .then((character) => {
-          console.log(`Adding character: ${JSON.stringify(character)}`)
-          characters.push(character)
-          res.end('')
-        })
-        .catch(err => console.error(err))
-  }))
+app.get('/game/:appid', (req, res) => {
+  const { appid } = req.params
+  getSchemaForGame(appid)
+    .then((response) => res.json(response))
+    .catch((err) => res.json(err))
 })
 
-app.post('/character/delete/:idx', (req, res) => {
-  const index = parseInt(req.params.idx)
-  characters.splice(index, 1)
-  console.log(`Deleting character at ${index}`)
-  res.end('')
-})
-
+const PORT = 7000
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
