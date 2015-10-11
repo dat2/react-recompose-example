@@ -11,6 +11,7 @@
   "author": "Nicholas Dujay",
   "license": "MIT",
   "dependencies": {
+    "jquery": "^2.1.4",
     "material-ui": "git://github.com/callemall/material-ui.git#react-0.14-support",
     "moment": "^2.10.6",
     "react": "^0.14.0",
