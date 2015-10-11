@@ -17,6 +17,7 @@ const getSchemaForGame = (appid) =>
   rp(baseUrl(`ISteamUserStats/GetSchemaForGame/v2/?${ makeQuery({ appid }) }`))
     .then(JSON.parse)
 
+// convert xml2js to promise
 const parseXml = (s) => new Promise((resolve, reject) => {
   parseString(s, (err, result) => {
     if(err) { reject(err) }
