@@ -15,6 +15,9 @@ const App = ({ userId, setUserId, games, loading }) => (
         <input type='text' placeholder='User id' onChange={setUserId} value={userId} />
         <i className='users icon'/>
       </div>
+      <div className='ui right'>
+        <p> Go to your profile [http://steamcommunity.com/id/&lt;userid&gt;] and copy paste &lt;userid&gt; into the textbox</p>
+      </div>
     </div>
 
     <div className='ui divider' />
@@ -23,7 +26,7 @@ const App = ({ userId, setUserId, games, loading }) => (
 )
 
 const fetchGamesAPI = (steamid) =>
-  fetch(`http://localhost:7000/games/${steamid}`)
+  fetch(`/api/games/${steamid}`)
     .then(games => games.json())
 
 const AppContainer = compose(

@@ -1,11 +1,10 @@
 {
-  "name": "contact-card-server",
-  "version": "1.0.0",
-  "description": "a simple server side of the contact app",
+  "name": "steam-game-listing",
+  "version": "0.5.0",
+  "description": "the server side for the steam-game-listing app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "sudo nodemon ."
+    "start": "node ."
   },
   "author": "",
   "license": "MIT",
@@ -13,6 +12,10 @@
     "babel": "^5.8.23",
     "concat-stream": "^1.5.0",
     "express": "^4.13.3",
-    "request-promise": "^0.4.3"
+    "request-promise": "^0.4.3",
+    "xml2js": "^0.4.12"
+  },
+  "engines": {
+    "node": "4.0.0"
   }
 }

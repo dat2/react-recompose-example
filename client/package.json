@@ -1,18 +1,15 @@
 {
-  "name": "contact-card-example",
-  "version": "1.0.0",
-  "description": "a simple example playing with contact cards",
+  "name": "steam-game-listing-client",
+  "version": "0.5.0",
+  "description": "the client for the steam-game-listing app",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --hot --progress",
-    "build": "webpack --progress",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --progress"
   },
   "author": "Nicholas Dujay",
   "license": "MIT",
   "dependencies": {
-    "jquery": "^2.1.4",
-    "material-ui": "git://github.com/callemall/material-ui.git#react-0.14-support",
     "moment": "^2.10.6",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",

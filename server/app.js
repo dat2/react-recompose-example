@@ -1,10 +1,14 @@
 import express from 'express'
 import concat from 'concat-stream'
 
-import { getGames, getSchemaForGame } from './steamapi'
-
+import { getSteamId, getGames, getSchemaForGame } from './steamapi'
 
 const app = express()
+
+const PORT = 7000
+app.set('port', process.env.PORT || PORT)
+
+app.use(express.static(__dirname + '/www'))
 
 // CORS since we are running webpack-dev-server
 app.all('*', (req, res, next) => {
@@ -16,9 +20,11 @@ app.all('*', (req, res, next) => {
   next()
 })
 
-app.get('/games/:steamid', (req, res) => {
+app.get('/api/games/:steamid', (req, res) => {
   const { steamid } = req.params
-  getGames(steamid)
+
+  getSteamId(steamid)
+    .then(getGames)
     .then((response) => {
       const { games } = response
       games.sort((a, b) => b.playtime_forever - a.playtime_forever)
@@ -27,12 +33,11 @@ app.get('/games/:steamid', (req, res) => {
     .catch((err) => res.json(err))
 })
 
-app.get('/game/:appid', (req, res) => {
+app.get('/api/game/:appid', (req, res) => {
   const { appid } = req.params
   getSchemaForGame(appid)
     .then((response) => res.json(response))
     .catch((err) => res.json(err))
 })
 
-const PORT = 7000
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
+app.listen(app.get('port'), () => console.log(`Listening on port ${app.get('port')}`))

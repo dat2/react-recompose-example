@@ -1,8 +1,6 @@
 import moment from 'moment'
 import { pure } from 'recompose'
 
-import wireframe from '../images/wireframe.png'
-
 const getPlaytime = (playtime_forever) => {
   const duration = moment.duration(playtime_forever, 'minutes')
 

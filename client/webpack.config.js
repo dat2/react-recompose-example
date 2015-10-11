@@ -8,7 +8,7 @@ module.exports = {
   },
 
   output: {
-    path: '../server/build',
+    path: '../server/www',
     filename: 'bundle.js'
   },
 
@@ -61,6 +61,9 @@ module.exports = {
   devServer: {
     contentBase: './app',
     inline: true,
-    colors: true
+    colors: true,
+    proxy: {
+      '/api/*': 'http://localhost:7000'
+    }
   }
 };
