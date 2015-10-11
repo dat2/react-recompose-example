@@ -6,10 +6,10 @@ const GameList = pure(({ games, loading }) => (
   <div>
     {
       loading ?
-        ( <h2 className='ui center aligned icon header'>
-            <i className='spinner loading icon'></i>
+        ( <div className='ui center aligned basic segment'>
+            <i className='huge spinner loading icon'></i>
             Loading...
-          </h2>
+          </div>
         ) :
         (
           <div className='ui five doubling stackable cards'>

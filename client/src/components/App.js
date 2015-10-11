@@ -10,14 +10,21 @@ const App = ({ userId, setUserId, games, loading }) => (
     </h1>
     <div className='ui divider' />
 
-    <div className='ui form'>
-      <div className='ui left icon input'>
-        <input type='text' placeholder='User id' onChange={setUserId} value={userId} />
-        <i className='users icon'/>
+    <div className='ui grid'>
+
+      <div className='four wide column'>
+        <div className='ui left icon input'>
+          <input type='text' placeholder='User id' onChange={setUserId} value={userId} />
+          <i className='users icon'/>
+        </div>
       </div>
-      <div className='ui right'>
+
+      <div className='three wide column' />
+
+      <div className='nine wide column'>
         <p> Go to your profile [http://steamcommunity.com/id/&lt;userid&gt;] and copy paste &lt;userid&gt; into the textbox</p>
       </div>
+
     </div>
 
     <div className='ui divider' />
