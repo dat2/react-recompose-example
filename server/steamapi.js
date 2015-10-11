@@ -24,6 +24,7 @@ const parseXml = (s) => new Promise((resolve, reject) => {
   })
 })
 
+// locate the steam id so it's much easier to deal with
 const getSteamId = (sid) => rp(`http://steamcommunity.com/id/${sid}/?xml=1`)
   .then(parseXml)
   .then( ({ profile: { steamID64 }}) => steamID64 )
