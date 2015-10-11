@@ -8,7 +8,7 @@ const app = express()
 const PORT = 7000
 app.set('port', process.env.PORT || PORT)
 
-app.use(express.static(__dirname + '/www'))
+app.use(express.static(__dirname + '/www/'))
 
 // CORS since we are running webpack-dev-server
 app.all('*', (req, res, next) => {
